@@ -1,26 +1,33 @@
 package templates
 
-persistentvolumeclaim: "frigate-datadir": {
-	kind:       "PersistentVolumeClaim"
-	apiVersion: "v1"
-	metadata: {
-		name:      "frigate-datadir"
-		namespace: "frigate"
-	}
-	spec: {
-		accessModes: ["ReadWriteOnce"]
-		resources: requests: storage: "500Gi"
-	}
+import (
+	corev1 "k8s.io/api/core/v1"
+)
+
+#PersistentVolumeClaimDatadir: corev1.#PersistentVolumeClaim & {
+	#config:	#Config
+    kind: "PersistentVolumeClaim"
+    apiVersion: "v1"
+    metadata: {
+		name:      "frigate-data"
+        namespace: string | *"frigate"
+    }
+    spec: {
+        accessModes: ["ReadWriteOnce"]
+        resources: requests: storage: #config.persistence.dataDirSize
+    }
 }
-persistentvolumeclaim: "frigate-models": {
-	kind:       "PersistentVolumeClaim"
-	apiVersion: "v1"
-	metadata: {
-		name:      "frigate-models"
-		namespace: "frigate"
-	}
-	spec: {
-		accessModes: ["ReadWriteOnce"]
-		resources: requests: storage: "20Gi"
-	}
+
+#PersistentVolumeClaimModels: corev1.#PersistentVolumeClaim &  {
+	#config:	#Config
+    kind: "PersistentVolumeClaim"
+    apiVersion: "v1"
+    metadata: {
+        name:      "frigate-models"
+        namespace: string | *"frigate"
+    }
+    spec: {
+        accessModes: ["ReadWriteOnce"]
+        resources: requests: storage: #config.persistence.modelDirSize
+    }
 }

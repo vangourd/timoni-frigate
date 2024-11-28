@@ -39,7 +39,7 @@ import (
 	// https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
 	// specifies the strategy used to replace old Pods by new ones
 	strategy: {
-		type:  *"Replace" | "RollingUpdate"
+		type:  *"Recreate" | "RollingUpdate"
 	}
 
 	// The image allows setting the container image repository,
@@ -97,6 +97,16 @@ import (
 
 	// Hardware Acceleration
 	hardwareAcceleration: *"disabled" | string
+
+	host: "frigate.lan"
+
+	persistence: {
+		enabled:      *true | bool
+		storageClass: *"standard" | string
+		dataDirSize:         *"8Gi" | string
+		modelDirSize:		 *"8Gi" | string
+	}
+
 }
 
 // Instance takes the config values and outputs the Kubernetes objects.
@@ -112,6 +122,14 @@ import (
 			#config: config
 			#cmName: objects.cm.metadata.name
 		}
+
+		pvcdata: #PersistentVolumeClaimDatadir & {#config: config}
+
+		pvcmodels: #PersistentVolumeClaimModels & {#config: config}
+
+		ingress: #Ingress & {#config: config}
+
+		service: #Service & {#config: config}
 	}
 
 	// tests: {

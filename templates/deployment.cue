@@ -14,7 +14,7 @@ import (
 	spec: appsv1.#DeploymentSpec & {
 		replicas: #config.replicas
 		strategy: type: #config.strategy.type
-		selector: matchLabels: app: "frigate"
+		selector: matchLabels: #config.selector.labels
 		template: {
 			metadata: {
 				labels: #config.selector.labels

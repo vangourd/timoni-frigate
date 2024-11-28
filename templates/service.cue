@@ -1,19 +1,24 @@
 package templates
 
-service: "frigate-service": {
+import (
+	corev1 "k8s.io/api/core/v1"
+)
+
+#Service: corev1.#Service & {
+	#config:    #Config
 	apiVersion: "v1"
 	kind:       "Service"
 	metadata: {
-		name:      "frigate-service"
-		namespace: "frigate"
+		name:      #config.serviceName | "frigate-service"
+		namespace: #config.namespace | "frigate"
 	}
 	spec: {
-		selector: app: "frigate"
+		selector: app: #config.appLabel | "frigate"
 		ports: [{
-			name:       "http"
+			name:       #config.portName | "http"
 			protocol:   "TCP"
-			port:       80
-			targetPort: 5000
+			port:       #config.servicePort | 80
+			targetPort: #config.targetPort | 5000
 		}]
 	}
 }
