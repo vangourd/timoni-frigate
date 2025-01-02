@@ -103,9 +103,16 @@ import (
 	persistence: {
 		enabled:      *true | bool
 		storageClass: *"standard" | string
-		dataDirSize:         *"8Gi" | string
-		modelDirSize:		 *"8Gi" | string
+		dataDirSize:         *"1Gi" | string
+		modelDirSize:		 *"1Gi" | string
 	}
+
+	rtsp: {
+		username:	string
+		password:	string
+	}
+
+	frigate: #FrigateConfig
 
 }
 
@@ -118,11 +125,14 @@ import (
 		// svc: #Service & {#config: config}
 		cm: #ConfigMap & {#config: config}
 
+		secret:	#Secret & {#config: config}
+
 		deploy: #Deployment & {
 			#config: config
-			#cmName: objects.cm.metadata.name
+			#cmName: cm.metadata.name
+			#secretName: secret.metadata.name
 		}
-
+		
 		pvcdata: #PersistentVolumeClaimDatadir & {#config: config}
 
 		pvcmodels: #PersistentVolumeClaimModels & {#config: config}

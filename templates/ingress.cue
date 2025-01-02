@@ -6,18 +6,18 @@ import (
 )
 
 #Ingress: networkingv1.#Ingress & {
-	#config:    #Config
-	#cmName: string
-	apiVersion: "networking.k8s.io/v1"
-	kind:       "Ingress"
+	#config:	#Config
+	#cmName:	string
+	apiVersion:	"networking.k8s.io/v1"
+	kind:		"Ingress"
 	metadata:   #config.metadata
 	spec: {
 		rules: [{
 			host: #config.host
 			http: paths: [{
-				path:     "/"
-				pathType: "Prefix"
-				backend: service: {
+				path:		"/"
+				pathType: 	"Prefix"
+				backend: 	service: {
 					name: #config.serviceName | "frigate-service"
 					port: number: #config.port | 80
 				}

@@ -13,7 +13,7 @@ import (
 		namespace: #config.namespace | "frigate"
 	}
 	spec: {
-		selector: app: #config.appLabel | "frigate"
+		selector: "app.kubernetes.io/name": #config.appLabel | "frigate"
 		ports: [{
 			name:       #config.portName | "http"
 			protocol:   "TCP"

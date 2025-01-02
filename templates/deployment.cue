@@ -6,11 +6,12 @@ import (
 )
 
 #Deployment: appsv1.#Deployment & {
-	#config:	#Config
-	#cmName:	string
-	apiVersion: "apps/v1"
-	kind:       "Deployment"
-	metadata: #config.metadata
+	#config:		#Config
+	#cmName:		string
+	#secretName:	string
+	apiVersion: 	"apps/v1"
+	kind:			"Deployment"
+	metadata: 		#config.metadata
 	spec: appsv1.#DeploymentSpec & {
 		replicas: #config.replicas
 		strategy: type: #config.strategy.type
@@ -34,7 +35,7 @@ import (
 				// TODO: This is bad. Privileged containers are bad mmkay.
 				volumes: [{
 					name: "frigate-config"
-					configMap: name: "frigate-config"
+					configMap: name: #cmName
 				}, {
 					name: "frigate-datadir"
 					persistentVolumeClaim: claimName: "frigate-datadir"
@@ -56,14 +57,17 @@ import (
 							mountPath: "/media"
 						}, {
 							name:      "frigate-config"
-							mountPath: "/config"
+							mountPath: "/config/config.yaml"
+							subPath: "config.yaml"
 						}, {
 							name:      "frigate-models"
 							mountPath: "/trt-models"
 						}]
-					// envFrom: [{
-					// 	secretRef: #frigate-env-secret
-					// }]
+						envFrom: [{
+							secretRef: { 
+								name: #secretName
+							}
+						}]
 						securityContext: #config.securityContext
 					}]
 				}
@@ -118,10 +122,6 @@ import (
 					}]
 					securityContext: #config.securityContext
 					resources: limits: "nvidia.com/gpu": 1
-					// envFrom: [{
-					// 	secretRef: #frigate-env-secret
-					// }]
-					
 				}]
 				}
 				
