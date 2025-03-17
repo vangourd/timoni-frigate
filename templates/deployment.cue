@@ -106,10 +106,16 @@ import (
 					containers: [{
 					name:  "frigate"
 					image: "ghcr.io/blakeblackshear/frigate:stable-tensorrt"
-					ports: [{
-						name:          "http"
-						containerPort: 5000
-					}]
+					ports: [
+						{
+							name:          "http"
+							containerPort: 5000
+						},
+						{
+							name: "api"
+							containerPort: 5001
+						}
+					]
 					volumeMounts: [{
 						name:      "frigate-datadir"
 						mountPath: "/media"

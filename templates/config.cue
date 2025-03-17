@@ -108,8 +108,8 @@ import (
 	}
 
 	rtsp: {
-		username:	string
-		password:	string
+		username:	*"user" | string
+		password:	*"notapassword" | string
 	}
 
 	frigate: #FrigateConfig
