@@ -48,10 +48,16 @@ import (
 					containers: [{
 						name:  "frigate"
 						image: #config.image.reference
-						ports: [{
+						ports: [
+							{
 							name:          "http"
 							containerPort: 5000
-						}]
+							},
+							{
+							name: "api"
+							containerPort: 5001
+							}
+						]
 						volumeMounts: [{
 							name:      "frigate-datadir"
 							mountPath: "/media"
