@@ -100,6 +100,10 @@ import (
 
 	host: "frigate.lan"
 
+	network: {
+		useHost: *false | bool
+	}
+
 	persistence: {
 		enabled:      *true | bool
 		storageClass: *"standard" | string

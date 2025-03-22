@@ -31,10 +31,10 @@ import (
 			}
 			spec: corev1.#PodSpec & {
 
-				hostNetwork:true
+				hostNetwork: #config.network.useHost
 				// TODO: This is bad. Privileged containers are bad mmkay.
 				volumes: [{
-					name: "frigate-config"
+					name: "frigate-config"	
 					configMap: name: #cmName
 				}, {
 					name: "frigate-datadir"
