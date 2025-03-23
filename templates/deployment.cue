@@ -51,11 +51,7 @@ import (
 						ports: [
 							{
 							name:          "http"
-							containerPort: 5000
-							},
-							{
-							name: "api"
-							containerPort: 5001
+							containerPort: 8971
 							}
 						]
 						volumeMounts: [{
